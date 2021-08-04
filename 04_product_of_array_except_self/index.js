@@ -29,7 +29,54 @@
  * The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
  */
 
-// given array of int, return an array where answer[i] === product of all elements of array except nums[i]
-// MUST write O(n) time, without using division operation
+var productExceptSelf = function (nums) {
+  let answer = [];
+  let reverseProduct = 1;
 
-function productOfArraySelf(ar) {}
+  for (let i = 0; i < nums.length; i++) {
+    if (i === 0) answer.push(1);
+    else {
+      answer.push(answer[i - 1] * nums[i - 1]);
+    }
+  }
+
+  for (let j = nums.length - 2; j >= 0; j--) {
+    reverseProduct *= nums[j + 1];
+    answer[j] *= reverseProduct;
+  }
+
+  return answer;
+};
+
+var productExceptSelf = function (nums) {
+  const N = nums.length;
+  const arLeft = new Array(N);
+  // const arRight = new Array(N);
+
+  arLeft[0] = 1;
+  // arRight[N - 1] = 1;
+  let reverseProduct = 1;
+  // const prodArray = new Array(N);
+
+  for (let i = 1; i < N; i++) {
+    arLeft[i] = arLeft[i - 1] * nums[i - 1];
+  }
+  // i (i + 1)
+  // [1,2,3,4] = 4 length
+  //
+
+  for (let i = N - 2; i >= 0; i--) {
+    reverseProduct *= nums[i + 1];
+    // arRight[i] = arRight[i + 1] * nums[i + 1];
+    arLeft[i] *= reverseProduct;
+  }
+
+  // for (let i = 0; i < N; i++) {
+  //   prodArray[i] = arLeft[i] * arRight[i];
+  // }
+
+  return arLeft;
+};
+
+console.log(productOfArraySelf([4, 5, 1, 8, 2]));
+console.log(productOfArraySelf([1, 2, 3, 4]));
